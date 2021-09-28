@@ -31,10 +31,6 @@ module Jekyll
         url
       end
     end
-
-    def megabytes(input)
-      "#{(input.to_f / 1_000_000).round(1)} MB"
-    end
   end
 end
 
