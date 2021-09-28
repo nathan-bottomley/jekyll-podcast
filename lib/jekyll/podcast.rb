@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
-require_relative "podcast/version"
+require_relative 'podcast/version'
 
 module Jekyll
   module Podcast
     class Error < StandardError; end
-    # Your code goes here...
   end
 end
+
+require_relative 'podcast/episode_data'
+require_relative 'podcast/podcast_episode_drop'
+require_relative 'podcast/liquid_tag_filters'
