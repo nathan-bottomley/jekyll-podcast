@@ -8,7 +8,7 @@ module Jekyll
     module TagLinkFilter
       def tag_link(input)
         tag_href = Jekyll::Podcast::TagPageGenerator.permalink(input, @context.registers[:site])
-        "<a class='tag' href='/#{tag_href}'>#{input}</a>"
+        "<a class='tag' href='#{tag_href}'>#{input}</a>"
       end
     end
   end
