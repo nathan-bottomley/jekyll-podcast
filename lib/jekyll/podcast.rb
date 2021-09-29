@@ -11,3 +11,4 @@ end
 require_relative 'podcast/episode_data'
 require_relative 'podcast/podcast_episode_drop'
 require_relative 'podcast/liquid_tag_filters'
+require_relative 'podcast/feed_generator'
