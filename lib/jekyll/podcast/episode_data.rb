@@ -41,7 +41,7 @@ module Jekyll
       end
 
       def size_in_megabytes
-        "#{(@size / 1_000_000).round(1)} MB"
+        "#{(@size / 1_000_000.0).round(1)} MB"
       end
 
       def seconds
