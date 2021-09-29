@@ -3,8 +3,49 @@
 require 'mp3Info'
 
 module Jekyll
+  # Define duration method in Jekyll::Podcast to convert from seconds to string for feed
   module Podcast
-    class << self
+    # Class responsible for setting episode data on a post's page
+    class EpisodeData
+      def initialize(payload)
+        @site = payload['site']
+        @page = payload['page']
+        @file_path = "assets/episodes/#{@page['podcast']['file']}"
+        @size = File.size(@file_path)
+      end
+
+      def add_episode_data
+        @page['podcast']['audio_file'] = audio_file
+        @page['podcast']['audio_url'] = audio_url
+        @page['podcast']['size'] = @size
+        @page['podcast']['size_in_megabytes'] = size_in_megabytes
+        @page['podcast']['duration'] = duration(seconds)
+      end
+
+      def audio_file
+        if @site['podcast']['tracking_prefix']
+          "#{@site['podcast']['tracking_prefix']}/#{@file_path}"
+        else
+          "/#{@file_path}"
+        end
+      end
+
+      def audio_url
+        if @site['podcast']['tracking_prefix']
+          "#{@site['podcast']['tracking_prefix']}/#{@file_path}"
+        else
+          "#{@site['url']}/#{@file_path}"
+        end
+      end
+
+      def size_in_megabytes
+        "#{(@size / 1_000_000).round(1)} MB"
+      end
+
+      def seconds
+        Mp3Info.open(@file_path, &:length)
+      end
+
       def duration(seconds)
         seconds = seconds.to_f.round
         h, rem = seconds.divmod(3600)
@@ -17,16 +58,6 @@ module Jekyll
   end
 end
 
-Jekyll::Hooks.register :posts, :pre_render, priority: 'high' do |_content, doc|
-  doc.page['podcast'] ||= {}
-  mp3_path = "assets/episodes/#{doc.page['podcast']['file']}"
-  next unless File.exist?(mp3_path)
-
-  size = File.size(mp3_path)
-  doc.page['podcast']['size'] = size
-  doc.page['podcast']['size_in_megabytes'] = "#{(size / 1_000_000).round(1)} MB"
-
-  Mp3Info.open(mp3_path) do |mp3|
-    doc.page['podcast']['duration'] = Jekyll::Podcast.duration(mp3.length)
-  end
+Jekyll::Hooks.register :posts, :pre_render, priority: 'high' do |_page, payload|
+  Jekyll::Podcast::EpisodeData.new(payload).add_episode_data
 end
