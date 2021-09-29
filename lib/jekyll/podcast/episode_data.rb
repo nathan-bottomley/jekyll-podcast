@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'erb'
 require 'mp3Info'
 
 module Jekyll
@@ -11,6 +12,7 @@ module Jekyll
         @site = payload['site']
         @page = payload['page']
         @file_path = "assets/episodes/#{@page['podcast']['file']}"
+        @escaped_file_path = "assets/episodes/#{ERB::Util.url_encode(@page['podcast']['file'])}"
         @size = File.size(@file_path)
       end
 
@@ -24,17 +26,17 @@ module Jekyll
 
       def audio_file
         if @site['podcast']['tracking_prefix']
-          "#{@site['podcast']['tracking_prefix']}/#{@file_path}"
+          "#{@site['podcast']['tracking_prefix']}/#{@escaped_file_path}"
         else
-          "/#{@file_path}"
+          "/#{@escaped_file_path}"
         end
       end
 
       def audio_url
         if @site['podcast']['tracking_prefix']
-          "#{@site['podcast']['tracking_prefix']}/#{@file_path}"
+          "#{@site['podcast']['tracking_prefix']}/#{@escaped_file_path}"
         else
-          "#{@site['url']}/#{@file_path}"
+          "#{@site['url']}/#{@escaped_file_path}"
         end
       end
 
