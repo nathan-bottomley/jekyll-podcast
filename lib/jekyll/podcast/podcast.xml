@@ -27,15 +27,10 @@
     <generator>Jekyll v{{ jekyll.version }}</generator>
     {% for post in site.posts -%}
     <item>
-      {% if post.podcast.guid -%}
-        {%- assign guid = post.podcast.guid -%}
-      {%- else -%}
-        {%- capture guid -%}{{ site.url }}{{ post.url }}{%- endcapture -%}
-      {%- endif -%}
       <title>{{ post.title }}</title>
-      <link>{{ site.url }}/{{ post.podcast.episode }}</link>
+      <link>{{ site.url }}{{ post.url }}</link>
       <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
-      <guid isPermaLink="false">{{ guid }}</guid>
+      <guid isPermaLink="false">{{ post.podcast.guid }}</guid>
 	    <dc:creator><![CDATA[{{ site.podcast.author }}]]></dc:creator>
       <description><![CDATA[{{ post.content }}]]></description>
       <content:encoded><![CDATA[{{ post.content }}]]></content:encoded>

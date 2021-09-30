@@ -17,11 +17,12 @@ module Jekyll
       end
 
       def add_episode_data
-        @page['podcast']['audio_file'] = audio_file
-        @page['podcast']['audio_url'] = audio_url
-        @page['podcast']['size'] = @size
-        @page['podcast']['size_in_megabytes'] = size_in_megabytes
-        @page['podcast']['duration'] = duration(seconds)
+        @page['podcast'].merge!({ 'audio_file' => audio_file,
+                                  'audio_url' => audio_url,
+                                  'size' => @size,
+                                  'size_in_megabytes' => size_in_megabytes,
+                                  'duration' => duration(seconds),
+                                  'guid' => guid })
       end
 
       def audio_file
@@ -55,6 +56,11 @@ module Jekyll
         m = m.to_s.rjust(2, '0')
         s = s.to_s.rjust(2, '0')
         "#{h}:#{m}:#{s}"
+      end
+
+      def guid
+        pp @page['podcast']['guid']
+        @page['podcast']['guid'] || "#{@site['url']}#{@page['url']}"
       end
     end
   end
