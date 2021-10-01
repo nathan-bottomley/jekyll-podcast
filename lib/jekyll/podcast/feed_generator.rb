@@ -1,5 +1,11 @@
 # frozen_string_literal: true
 
+Jekyll::Hooks.register :site, :after_init do |site|
+  required_keys = %w[title subtitle author description language summary owner email explicit category]
+  missing_keys = required_keys.reject { |x| site.config['podcast'].key?(x) }
+  Jekyll.logger.warn "Podcast config is missing keys #{missing_keys}" unless missing_keys.empty?
+end
+
 module Jekyll
   module Podcast
     # Class representing feed page
@@ -21,7 +27,6 @@ module Jekyll
         template_path = File.expand_path('podcast.xml', __dir__)
         feed_page.content = File.read(template_path)
         feed_page.data['layout'] = nil
-        feed_page.output
         feed_page
       end
     end
