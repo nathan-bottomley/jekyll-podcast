@@ -59,7 +59,6 @@ module Jekyll
       end
 
       def guid
-        pp @page['podcast']['guid']
         @page['podcast']['guid'] || "#{@site['url']}#{@page['url']}"
       end
     end
