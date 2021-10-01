@@ -40,7 +40,7 @@ module Jekyll
         if site.data['tag_permalinks'] && site.data['tag_permalinks'][tag]
           site.data['tag_permalinks'][tag]
         else
-          Jekyll::Utils.slugify(tag)
+          "/#{Jekyll::Utils.slugify(tag)}/"
         end
       end
     end
