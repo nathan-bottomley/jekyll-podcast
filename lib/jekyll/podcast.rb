@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'podcast/version'
+require 'jekyll/podcast/version'
 
 module Jekyll
   module Podcast
@@ -8,10 +8,10 @@ module Jekyll
   end
 end
 
-require_relative 'podcast/episode_data'
-require_relative 'podcast/podcast_episode_drop'
-require_relative 'podcast/liquid_tag_filters'
-require_relative 'podcast/feed_generator'
-require_relative 'podcast/tag_page_generator'
-require_relative 'podcast/tag_link_filter'
-require_relative 'podcast/guest_page_generator'
+require 'jekyll/podcast/episode_data'
+require 'jekyll/podcast/podcast_episode_drop'
+require 'jekyll/podcast/liquid_tag_filters'
+require 'jekyll/podcast/feed_generator'
+require 'jekyll/podcast/tag_page_generator'
+require 'jekyll/podcast/tag_link_filter'
+require 'jekyll/podcast/guest_page_generator'
