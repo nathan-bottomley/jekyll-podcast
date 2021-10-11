@@ -2,8 +2,8 @@
 
 module Jekyll
   module Podcast
-    # Calculate the total duration of all podcast episodes
-    module PodcastDuration
+    # Calculate the total count and duration of all podcast episodes
+    module PodcastInformation
       class << self
         def duration(seconds)
           mm, ss = seconds.divmod(60)
@@ -17,22 +17,17 @@ module Jekyll
           }
         end
 
-        def total_podcast_duration
-          result = 0
-          Dir.children('assets/episodes').each do |mp3|
-            next unless mp3.end_with?('.mp3')
-
-            path = "assets/episodes/#{mp3}"
-            result += Mp3Info.open(path, &:length)
-          end
+        def podcast_information
+          episodes = Dir.children('assets/episodes').select { |x| x.end_with?('.mp3') }
+          count = episodes.length
+          duration_in_seconds = episodes.sum { |mp3| Mp3Info.open("assets/episodes/#{mp3}", &:length) }
+          result = duration(duration_in_seconds)
+          result[:count] = count
           result
         end
 
-        def total_podcast_duration_log_entry
-          format(
-            'Total podcast duration is %<days>d:%<hours>02d:%<minutes>02d:%<seconds>.3f',
-            duration(total_podcast_duration)
-          )
+        def podcast_information_log_entry
+          format('%<count>d episodes; %<days>d d %<hours>d h %<minutes>d min %<seconds>0.3f s', podcast_information)
         end
       end
     end
@@ -40,5 +35,5 @@ module Jekyll
 end
 
 Jekyll::Hooks.register :site, :post_write do |_site|
-  Jekyll.logger.info Jekyll::Podcast::PodcastDuration.total_podcast_duration_log_entry.yellow
+  Jekyll.logger.info Jekyll::Podcast::PodcastInformation.podcast_information_log_entry.yellow
 end
