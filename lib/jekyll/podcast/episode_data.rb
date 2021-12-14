@@ -2,6 +2,7 @@
 
 require 'erb'
 require 'mp3Info'
+require_relative 'utils'
 
 module Jekyll
   # Define duration method in Jekyll::Podcast to convert from seconds to string for feed
@@ -50,12 +51,7 @@ module Jekyll
       end
 
       def duration(seconds)
-        seconds = seconds.to_f.round
-        h, rem = seconds.divmod(3600)
-        m, s   = rem.divmod(60)
-        m = m.to_s.rjust(2, '0')
-        s = s.to_s.rjust(2, '0')
-        "#{h}:#{m}:#{s}"
+        format('%<hours>d:%<minutes>02d:%<seconds>02d', Jekyll::Podcast::Utils.duration(seconds))
       end
 
       def guid

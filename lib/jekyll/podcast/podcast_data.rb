@@ -1,28 +1,17 @@
 # frozen_string_literal: true
 
+require_relative 'utils'
 module Jekyll
   module Podcast
     # Calculate the total count and duration of all podcast episodes
     module PodcastData
       class << self
-        def duration(seconds)
-          mm, ss = seconds.divmod(60)
-          hh, mm = mm.divmod(60)
-          dd, hh = hh.divmod(24)
-          {
-            days: dd,
-            hours: hh,
-            minutes: mm,
-            seconds: ss
-          }
-        end
-
         def podcast_data
           episodes = Dir.children('assets/episodes').select { |x| x.end_with?('.mp3') }
           count = episodes.length
           duration_in_seconds = episodes.sum { |mp3| Mp3Info.open("assets/episodes/#{mp3}", &:length) }
           size_in_bytes = episodes.sum { |mp3| File.size("assets/episodes/#{mp3}") }
-          result = duration(duration_in_seconds)
+          result = Jekyll::Podcast::Utils.duration(duration_in_seconds)
           result[:count] = count
           result[:size] = "#{(size_in_bytes / 1_000_000.0).round(1)} MB"
           result
