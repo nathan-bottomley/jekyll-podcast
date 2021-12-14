@@ -24,15 +24,16 @@ module Jekyll
           @data['permalink'] = Jekyll::Podcast::TagPageGenerator.permalink(@tag, site)
           @data['layout'] = 'tag-page'
           @data['title'] = tag
-          @data['pagination'] = pagination
+          @data['pagination'] = pagination(site)
         end
 
-        def pagination
+        def pagination(site)
+          pagination_config = site.config.dig('tag_pages', 'pagination') || {}
           {
             'enabled' => true,
             'tag' => @tag,
             'sort_reverse' => false
-          }
+          }.merge(pagination_config)
         end
       end
 
