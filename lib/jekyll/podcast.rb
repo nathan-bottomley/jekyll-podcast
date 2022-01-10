@@ -11,6 +11,7 @@ end
 require 'jekyll/podcast/episode_data'
 require 'jekyll/podcast/podcast_episode_drop'
 require 'jekyll/podcast/liquid_tag_filters'
+require 'jekyll/podcast/file_exists'
 require 'jekyll/podcast/feed_generator'
 require 'jekyll/podcast/tag_page_generator'
 require 'jekyll/podcast/tag_link_filter'

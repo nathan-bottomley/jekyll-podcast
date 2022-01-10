@@ -32,8 +32,18 @@
       <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
       <guid isPermaLink="false">{{ post.podcast.guid }}</guid>
 	    <dc:creator><![CDATA[{{ site.podcast.author }}]]></dc:creator>
-      <description><![CDATA[{{ post.content }}]]></description>
-      <content:encoded><![CDATA[{{ post.content }}]]></content:encoded>
+      {%- capture post_feed_content_exists -%}
+        {%- file_exists _includes/post_feed_content.html -%}
+      {%- endcapture %}
+      {%- capture content %}
+        {%- if post_feed_content_exists == "true" -%}
+          {%- include post_feed_content.html post=post -%}
+        {%- else -%}
+          {{ post.content }}
+        {%- endif -%}
+      {%- endcapture -%}
+      <description><![CDATA[{{ content }}]]></description>
+      <content:encoded><![CDATA[{{ content }}]]></content:encoded>
       <itunes:subtitle><![CDATA[{{ post.excerpt | strip_html | truncate: 250 }}]]></itunes:subtitle>
       <itunes:keywords>{{ post.tags | join: ","}}</itunes:keywords>
       <itunes:episodeType>full</itunes:episodeType>
