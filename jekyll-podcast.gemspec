@@ -30,4 +30,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'mp3info', '~> 0.8.5'
   spec.add_dependency 'json-schema', '~> 2.6'
+
+  spec.add_development_dependency 'jekyll', '~> 4.2'
 end
