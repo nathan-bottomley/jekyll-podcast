@@ -3,6 +3,7 @@
 require 'erb'
 require 'mp3Info'
 require_relative 'utils'
+require 'jekyll'
 
 module Jekyll
   # Define duration method in Jekyll::Podcast to convert from seconds to string for feed
@@ -14,13 +15,12 @@ module Jekyll
         @page = payload['page']
         @file_path = "assets/episodes/#{@page['podcast']['file']}"
         @escaped_file_path = "assets/episodes/#{ERB::Util.url_encode(@page['podcast']['file'])}"
-        @size = File.size(@file_path)
       end
 
       def add_episode_data
         @page['podcast'].merge!({ 'audio_file' => audio_file,
                                   'audio_url' => audio_url,
-                                  'size' => @size,
+                                  'size' => size,
                                   'size_in_megabytes' => size_in_megabytes,
                                   'duration' => duration(seconds),
                                   'guid' => guid })
@@ -42,16 +42,29 @@ module Jekyll
         end
       end
 
+      def size
+        if File.exist? @file_path
+          File.size(@file_path)
+        else
+          0
+        end
+      end
+
       def size_in_megabytes
-        "#{(@size / 1_000_000.0).round(1)} MB"
+        "#{(size / 1_000_000.0).round(1)} MB"
       end
 
       def seconds
-        Mp3Info.open(@file_path, &:length)
+        if File.exist? @file_path
+          Mp3Info.open(@file_path, &:length)
+        else
+          0
+        end
       end
 
       def duration(seconds)
-        format('%<hours>d:%<minutes>02d:%<seconds>02d', Jekyll::Podcast::Utils.duration(seconds))
+        format('%<hours>d:%<minutes>02d:%<seconds>02d',
+               Jekyll::Podcast::Utils.duration(seconds))
       end
 
       def guid
