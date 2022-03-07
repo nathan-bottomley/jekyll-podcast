@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'erb'
 require 'mp3Info'
 require_relative 'utils'
 require 'jekyll'
@@ -13,33 +12,14 @@ module Jekyll
       def initialize(payload)
         @site = payload['site']
         @page = payload['page']
-        @file_path = "assets/episodes/#{@page['podcast']['file']}"
-        @escaped_file_path = "assets/episodes/#{ERB::Util.url_encode(@page['podcast']['file'])}"
+        @file_path = "episodes/#{@page['podcast']['file']}"
       end
 
       def add_episode_data
-        @page['podcast'].merge!({ 'audio_file' => audio_file,
-                                  'audio_url' => audio_url,
-                                  'size' => size,
+        @page['podcast'].merge!({ 'size' => size,
                                   'size_in_megabytes' => size_in_megabytes,
                                   'duration' => duration(seconds),
                                   'guid' => guid })
-      end
-
-      def audio_file
-        if @site['podcast']['tracking_prefix']
-          "#{@site['podcast']['tracking_prefix']}/#{@escaped_file_path}"
-        else
-          "/#{@escaped_file_path}"
-        end
-      end
-
-      def audio_url
-        if @site['podcast']['tracking_prefix']
-          "#{@site['podcast']['tracking_prefix']}/#{@escaped_file_path}"
-        else
-          "#{@site['url']}/#{@escaped_file_path}"
-        end
       end
 
       def size

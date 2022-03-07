@@ -22,7 +22,13 @@
 			<itunes:email>{{ site.podcast.email }}</itunes:email>
 		</itunes:owner>
 		<itunes:explicit>{{ site.podcast.explicit }}</itunes:explicit>
+    {% if site.podcast.subcategory -%}
+    <itunes:category text="{{ site.podcast.category }}">
+      <itunes:category text="{{ site.podcast.subcategory }}"/>
+    </itunes:category>
+    {%- else -%}
     <itunes:category text="{{ site.podcast.category }}" />
+    {%- endif %}
     <itunes:image href="{{ site.url }}/assets/images/podcast-logo.jpeg" />
     <generator>Jekyll v{{ jekyll.version }}</generator>
     {% for post in site.posts -%}
@@ -49,7 +55,7 @@
       <itunes:episodeType>full</itunes:episodeType>
       <itunes:title>{{ post.title }}</itunes:title>
       <itunes:episode>{{ post.podcast.episode }}</itunes:episode>
-      <enclosure url="{{ post.podcast.audio_url }}" length="{{ post.podcast.size }}"
+      <enclosure url="{{ post.podcast.file | episode_url }}" length="{{ post.podcast.size }}"
         type="audio/mpeg" />
       <itunes:summary><![CDATA[{{ post.excerpt | strip_html }}]]></itunes:summary>
       <itunes:block>no</itunes:block>

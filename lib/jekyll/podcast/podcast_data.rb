@@ -7,10 +7,10 @@ module Jekyll
     module PodcastData
       class << self
         def podcast_data
-          episodes = Dir.children('assets/episodes').select { |x| x.end_with?('.mp3') }
+          episodes = Dir.children('episodes').select { |x| x.end_with?('.mp3') }
           count = episodes.length
-          duration_in_seconds = episodes.sum { |mp3| Mp3Info.open("assets/episodes/#{mp3}", &:length) }
-          size_in_bytes = episodes.sum { |mp3| File.size("assets/episodes/#{mp3}") }
+          duration_in_seconds = episodes.sum { |mp3| Mp3Info.open("episodes/#{mp3}", &:length) }
+          size_in_bytes = episodes.sum { |mp3| File.size("episodes/#{mp3}") }
           result = Jekyll::Podcast::Utils.duration(duration_in_seconds)
           result[:count] = count
           result[:size] = "#{(size_in_bytes / 1_000_000.0).round(1)} MB"

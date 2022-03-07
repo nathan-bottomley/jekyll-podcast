@@ -13,6 +13,13 @@ module Jekyll
       def tag_permalink(input)
         @context.registers[:site].data['tag_permalinks'][input]
       end
+
+      def episode_url(input)
+        File.join(
+          @context.registers[:site].config['podcast']['episode_url_prefix'], 
+          ERB::Util.url_encode(input)
+        )
+      end
     end
   end
 end
