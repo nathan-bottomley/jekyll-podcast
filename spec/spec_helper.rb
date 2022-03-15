@@ -1,16 +1,54 @@
 # frozen_string_literal: true
 
-require 'jekyll/podcast'
 require 'jekyll'
+require 'jekyll/podcast'
+
+Jekyll.logger.log_level = :error
 
 RSpec.configure do |config|
-  # Enable flags like --only-failures and --next-failure
-  config.example_status_persistence_file_path = '.rspec_status'
+  config.run_all_when_everything_filtered = true
+  config.filter_run :focus
+  config.order = 'random'
+end
 
-  # Disable RSpec exposing methods globally on `Module` and `main`
-  config.disable_monkey_patching!
+def source_dir(*files)
+  source_dir = File.expand_path('fixtures', __dir__)
+  File.join(source_dir, *files)
+end
 
-  config.expect_with :rspec do |c|
-    c.syntax = :expect
-  end
+def dest_dir(*files)
+  dest_dir = File.expand_path('dest', __dir__)
+  File.join(dest_dir, *files)
+end
+
+def config_defaults
+  {
+    'source' => source_dir,
+    'destination' => dest_dir,
+    'gems' => ['jekyll-podcast'],
+    'collections' => ['my_collection'],
+    'podcast' => {
+      'title' => 'Flight Through Entirety',
+      'episode_url_prefix' => 'https://example.com/episodes/'
+    }
+  }.freeze
+end
+
+def make_page(options = {})
+  page = Jekyll::Page.new(site, config_defaults['source'], '', 'page.md')
+  page.data = options
+  page
+end
+
+def make_site(options = {})
+  site_config = Jekyll.configuration(config_defaults.merge(options))
+  Jekyll::Site.new(site_config)
+end
+
+def make_context(registers = {}, environments = {})
+  Liquid::Context.new(
+    environments,
+    {},
+    { site: site, page: page }.merge(registers)
+  )
 end

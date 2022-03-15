@@ -6,18 +6,32 @@ module Jekyll
     # Calculate the total count and duration of all podcast episodes
     module PodcastData
       class << self
+        def episodes_directory
+          File.join(@site.source, 'episodes')
+        end
+
+        def episodes
+          Dir.children(episodes_directory).select { |x| x.end_with?('.mp3') }
+        end
+
+        def total_duration_in_seconds
+          episodes.sum { |mp3| Mp3Info.open("#{episodes_directory}/#{mp3}", &:length) }
+        end
+
+        def total_size_in_megabytes
+          size_in_bytes = episodes.sum { |mp3| File.size("#{episodes_directory}/#{mp3}") }
+          "#{(size_in_bytes / 1_000_000.0).round(1)} MB"
+        end
+
         def podcast_data
-          episodes = Dir.children('episodes').select { |x| x.end_with?('.mp3') }
-          count = episodes.length
-          duration_in_seconds = episodes.sum { |mp3| Mp3Info.open("episodes/#{mp3}", &:length) }
-          size_in_bytes = episodes.sum { |mp3| File.size("episodes/#{mp3}") }
-          result = Jekyll::Podcast::Utils.duration(duration_in_seconds)
-          result[:count] = count
-          result[:size] = "#{(size_in_bytes / 1_000_000.0).round(1)} MB"
+          result = Jekyll::Podcast::Utils.duration(total_duration_in_seconds)
+          result[:count] = episodes.length
+          result[:size] = total_size_in_megabytes
           result
         end
 
-        def podcast_data_log_entry
+        def podcast_data_log_entry(site)
+          @site = site
           format('%<count>d episodes; %<size>s; %<days>d d %<hours>d h %<minutes>d min %<seconds>0.3f s',
                  podcast_data)
         end
@@ -26,6 +40,6 @@ module Jekyll
   end
 end
 
-Jekyll::Hooks.register :site, :post_write do |_site|
-  Jekyll.logger.info Jekyll::Podcast::PodcastData.podcast_data_log_entry.yellow
+Jekyll::Hooks.register :site, :post_write do |site|
+  Jekyll.logger.info Jekyll::Podcast::PodcastData.podcast_data_log_entry(site).yellow
 end
