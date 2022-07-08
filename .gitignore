@@ -9,6 +9,7 @@
 /.vscode/
 /spec/dest/
 .jekyll-cache
+.nova
 
 # rspec failure tracking
 .rspec_status
