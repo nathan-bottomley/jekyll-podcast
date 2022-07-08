@@ -2,7 +2,7 @@
 
 module Jekyll
   module Podcast
-    # Liquid tage to determine the existence of a file
+    # Liquid tag to determine the existence of a file
     # Path name should be the root of the directory, without an initial slash
     class FileExistsTag < Liquid::Tag
       def initialize(tag_name, path, tokens)
