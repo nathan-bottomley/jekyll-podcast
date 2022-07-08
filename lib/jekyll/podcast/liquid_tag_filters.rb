@@ -16,7 +16,7 @@ module Jekyll
 
       def episode_url(input)
         File.join(
-          @context.registers[:site].config['podcast']['episode_url_prefix'], 
+          @context.registers[:site].config['podcast']['episode_url_prefix'],
           ERB::Util.url_encode(input)
         )
       end

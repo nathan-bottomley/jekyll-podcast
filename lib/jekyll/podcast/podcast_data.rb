@@ -7,7 +7,8 @@ module Jekyll
     module PodcastData
       class << self
         def episodes_directory
-          File.join(@site.source, 'episodes')
+          File.join(@site.source,
+                    @site.config.dig('podcast', 'episodes_dir') || '_episodes')
         end
 
         def episodes
@@ -15,11 +16,15 @@ module Jekyll
         end
 
         def total_duration_in_seconds
-          episodes.sum { |mp3| Mp3Info.open("#{episodes_directory}/#{mp3}", &:length) }
+          episodes.sum do |mp3|
+            Mp3Info.open("#{episodes_directory}/#{mp3}", &:length)
+          end
         end
 
         def total_size_in_megabytes
-          size_in_bytes = episodes.sum { |mp3| File.size("#{episodes_directory}/#{mp3}") }
+          size_in_bytes = episodes.sum do |mp3|
+            File.size("#{episodes_directory}/#{mp3}")
+          end
           "#{(size_in_bytes / 1_000_000.0).round(1)} MB"
         end
 
@@ -32,8 +37,11 @@ module Jekyll
 
         def podcast_data_log_entry(site)
           @site = site
-          format('%<count>d episodes; %<size>s; %<days>d d %<hours>d h %<minutes>d min %<seconds>0.3f s',
-                 podcast_data)
+          format(
+            '%<count>d episodes; %<size>s;'\
+            '%<days>d d %<hours>d h %<minutes>d min %<seconds>0.3f s',
+            podcast_data
+          )
         end
       end
     end
