@@ -6,10 +6,9 @@ module Jekyll
     class PageTitleTag < Liquid::Tag
       def render(context)
         site_title = context.registers[:site].config['title']
-        Jekyll.logger.info "site title: #{site_title}"
         page_title = context.registers[:page]['title']
 
-        if page_title.nil? || page_title == site_title
+        if page_title.nil? || page_title.empty? || page_title == site_title
           "<title>#{site_title}</title>"
         else
           "<title>#{page_title} — #{site_title}</title>"
