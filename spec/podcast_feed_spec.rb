@@ -20,36 +20,28 @@ describe 'the podcast feed' do
   end
 end
 
-describe 'the podcast feed contents' do
+describe 'the podcast feed xml' do
   let(:site) { make_site('url' => 'https://flightthroughentirety.com') }
   let(:feed) { dest_dir('feed', 'podcast') }
   before { site.process }
 
-  it 'has a title' do
+  it 'has a title element' do
     expect(Nokogiri::XML(File.read(feed)).at_xpath('/rss/channel/title').content).to eq('Flight Through Entirety')
   end
 
   it 'has an <atom:link> element' do
-    expect(Nokogiri::XML(File.read(feed)).at_xpath('/rss/channel/atom:link').content).to eq('http://example.org/feed/podcast/')
+    expect(Nokogiri::XML(File.read(feed)).at_xpath('/rss/channel/atom:link').content).not_to be_nil
   end
 
-  it 'has an <atom:link> element with a rel attribute' do
+  it 'has an <atom:link> element with a rel attribute of self' do
     expect(Nokogiri::XML(File.read(feed)).at_xpath('/rss/channel/atom:link/@rel').content).to eq('self')
   end
 
-  it 'has an <atom:link> element with an href attribute' do
-    expect(Nokogiri::XML(File.read(feed)).at_xpath('/rss/channel/atom:link/@href').content).to eq('http://example.org/feed/podcast/')
+  it 'has an <atom:link> element with a correct href attribute' do
+    expect(Nokogiri::XML(File.read(feed)).at_xpath('/rss/channel/atom:link/@href').content).to eq('https://flightthroughentirety.com/feed/podcast')
   end
 
-  it 'has an <atom:link> element with an href attribute that ends in .xml' do
-    expect(Nokogiri::XML(File.read(feed)).at_xpath('/rss/channel/atom:link/@href').content).to end_with('.xml')
-  end
-
-  it 'has an <atom:link> element with an href attribute that is an absolute URL' do
-    expect(Nokogiri::XML(File.read(feed)).at_xpath('/rss/channel/atom:link/@href').content).to start_with('http')
-  end
-
-  it 'has an <atom:link> element with an href attribute that is an absolute URL' do
-    expect(Nokogiri::XML(File.read(feed)).at_xpath('/rss/channel/atom:link/@href').content).to start_with('http')
+  it 'has an <atom:link> element with a type attribute of application/rss+xml' do
+    expect(Nokogiri::XML(File.read(feed)).at_xpath('/rss/channel/atom:link/@type').content).to eq('application/rss+xml')
   end
 end
