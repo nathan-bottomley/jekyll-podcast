@@ -6,24 +6,23 @@ module Jekyll
     # Calculate the total count and duration of all podcast episodes
     module PodcastData
       class << self
-        def episodes_directory
-          File.join(@site.source,
-                    @site.config.dig('podcast', 'episodes_dir') || '_episodes')
+        def episodes_dir
+          Jekyll::Podcast::Utils.episodes_dir(@site)
         end
 
         def episodes
-          Dir.children(episodes_directory).select { |x| x.end_with?('.mp3') }
+          Dir.children(episodes_dir).select { |x| x.end_with?('.mp3') }
         end
 
         def total_duration_in_seconds
           episodes.sum do |mp3|
-            Mp3Info.open("#{episodes_directory}/#{mp3}", &:length)
+            Mp3Info.open(File.join(episodes_dir, mp3), &:length)
           end
         end
 
         def total_size_in_megabytes
           size_in_bytes = episodes.sum do |mp3|
-            File.size("#{episodes_directory}/#{mp3}")
+            File.size(File.join(episodes_dir, mp3))
           end
           "#{(size_in_bytes / 1_000_000.0).round(1)} MB"
         end

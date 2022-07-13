@@ -9,10 +9,10 @@ module Jekyll
   module Podcast
     # Class responsible for setting episode data on a post's page
     class EpisodeData
-      def initialize(payload)
-        @site = payload['site']
+      def initialize(page, payload)
+        @site = page.site
         @page = payload['page']
-        @file_path = "episodes/#{@page['podcast']['file']}"
+        @file_path = File.join(Jekyll::Podcast::Utils.episodes_dir(@site), @page['podcast']['file'])
       end
 
       def add_episode_data
@@ -48,12 +48,12 @@ module Jekyll
       end
 
       def guid
-        @page['podcast']['guid'] || "#{@site['url']}#{@page['url']}"
+        @page['podcast']['guid'] || "#{@site.config['url']}#{@page['url']}"
       end
     end
   end
 end
 
-Jekyll::Hooks.register :posts, :pre_render, priority: 'high' do |_page, payload|
-  Jekyll::Podcast::EpisodeData.new(payload).add_episode_data
+Jekyll::Hooks.register :posts, :pre_render, priority: 'high' do |page, payload|
+  Jekyll::Podcast::EpisodeData.new(page, payload).add_episode_data
 end

@@ -16,6 +16,14 @@ module Jekyll
             seconds: ss
           }
         end
+
+        def episodes_dir(site)
+          if site.config['podcast']['remote_episode_host']
+            File.join(site.source, '_episodes')
+          else
+            File.join(site.source, 'assets/episodes')
+          end
+        end
       end
     end
   end

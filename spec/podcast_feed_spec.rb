@@ -3,7 +3,7 @@
 require 'nokogiri'
 
 describe 'the podcast feed' do
-  let(:site) { make_site }
+  let(:site) { make_site('url' => 'https://flightthroughentirety.com') }
   let(:feed) { dest_dir('feed', 'podcast') }
   before { site.process }
 
@@ -23,6 +23,7 @@ end
 describe 'the podcast feed xml' do
   let(:site) { make_site('url' => 'https://flightthroughentirety.com') }
   let(:feed) { dest_dir('feed', 'podcast') }
+
   before { site.process }
 
   it 'has a title element' do
