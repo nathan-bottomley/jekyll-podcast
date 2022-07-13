@@ -14,3 +14,5 @@ gem "rubocop", "~> 1.7"
 gem "jekyll", "~> 4.2"
 
 gem "nokogiri", "~> 1.13"
+
+gem "rubocop-rspec", "~> 2.11", require: false
