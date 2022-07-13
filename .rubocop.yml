@@ -3,5 +3,3 @@ AllCops:
 
 Layout/LineLength:
   Max: 120
-
-require: rubocop-rspec
