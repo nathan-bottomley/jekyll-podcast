@@ -39,11 +39,11 @@
       <guid isPermaLink="false">{{ post.podcast.guid }}</guid>
 	    <dc:creator><![CDATA[{{ site.podcast.author }}]]></dc:creator>
       {%- capture post_feed_content_exists -%}
-        {%- file_exists _includes/post_feed_content.html -%}
+        {%- file_exists _includes/post-feed-content.html -%}
       {%- endcapture %}
       {%- capture content %}
         {%- if post_feed_content_exists == "true" -%}
-          {%- include post_feed_content.html post=post -%}
+          {%- include post-feed-content.html post=post -%}
         {%- else -%}
           {{ post.content }}
         {%- endif -%}
