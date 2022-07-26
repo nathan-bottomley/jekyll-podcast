@@ -15,6 +15,7 @@ module Jekyll
       end
 
       def episode_url(input)
+        input = ERB::Util.url_encode(input)
         File.join(url_prefix, input)
       end
 
