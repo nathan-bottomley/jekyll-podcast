@@ -1,6 +1,6 @@
 # Jekyll::Podcast
 
-`jekyll-podcast` converts a Jekyll blog into a podcast webpage. It provides you with all of the functionality you need to make your podcast fully accessible from your webpage, and it creates a podcast feed which you can submit to Apple Podcasts, Google Podcasts, Spotify or any other podcast directory.
+`jekyll-podcast` converts a Jekyll blog into a podcast webpage. It provides you with all the functionality you need to make your podcast fully accessible from your webpage, and it creates a podcast feed which you can submit to Apple Podcasts, Google Podcasts, Spotify or any other podcast directory.
 
 ## Installation
 
@@ -26,7 +26,7 @@ gem install jekyll-podcast
 
 ### Providing information about your podcast
 
-Most of the important information about your podcast — the title, the owner, the category, the subcategory and so on — will appear in a `podcast` block in `_config.yml`.
+Most of the important information about your podcast — the title, the owner, the category, the subcategory and so on should appear in a `podcast` block in `_config.yml`.
 
 ```yaml
 # _config.yml
@@ -55,7 +55,7 @@ You will also need to provide your podcast artwork, which should be a JPEG file 
 
 ### Providing information about your podcast episodes
 
-Each post in the `_posts` directory will correspond to an episode of your podcast. So, for example, the publication date of the post will be the publication date of the episode, and the content of the post will be the description of the episode, which is (normally) displayed in your listeners' podcast player.
+Each post in the `_posts` directory will correspond to an episode of your podcast. So, for example, the publication date of the post will be the publication date of the episode, and the content of the post will be the episode's description or shownotes, which will (normally) be displayed in your listeners' podcast player.
 
 Other information about your podcast episodes should be provided in each post's front matter. Here's an example.
 
@@ -84,7 +84,7 @@ If you use an analytics service that requires a URL prefix to track your episode
 # _config.yml
 
 podcast:
-  tracking_prefix: https://dts.podtrac.com/redirect.mp3/assets/episodes
+  tracking_prefix: https://dts.podtrac.com/redirect.mp3
 ```
 
 If you use a CDN or an S3-compatible storage solution to host your podcast episodes, you will need to provide the URL for that sevice. You must also store your episodes in a folder called `/_episodes`, so that Jekyll doesn't include the episode files in the website it builds.
@@ -105,9 +105,9 @@ Your podcast feed will appear in your `_site` directory at `feed/podcast`.
 
 ### Your shownotes
 
-The contents of each episode's post will appear on the website, as usual, but it will also be used as the shownotes for your episode and displayed in your listeners' podcast players.
+The contents of each episode's post will appear on the website, as usual, but it will also be used as the description or shownotes for your episode and displayed in your listeners' podcast players.
 
-It's easy to make the shownotes displayed in a podcast player different from the post displayed on your site. Just create an include called `post-feed-content.html` in the `_includes` folder and use it to define the content that you want to appear as your shownotes in a podcast player. Here's an example.
+It's easy to make a podcast player show a different description from the post displayed on your site. Just create an include called `post-feed-content.html` in the `_includes` folder and use it to define the content that you want to appear in a podcast player. Here's an example.
 
 ```html
 <!-- post-feed-content.html -->
@@ -246,8 +246,6 @@ Now you can create the contributor's pages. Each page can contain a picture, a b
 To indicate which contributors are involved in a particular episode, just add a list of contributors to the front matter of the corresponding post.
 
 ```yaml
-# _config.yml
-
 contributors:
 - Jonathan Archer
 - Gabriel Lorca
