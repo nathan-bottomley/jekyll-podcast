@@ -10,7 +10,9 @@ gem "rake", "~> 13.0"
 gem "rspec", "~> 3.0"
 
 gem "rubocop", "~> 1.7"
+gem "rubocop-rspec", "~> 2.12"
 
 gem "jekyll", "~> 4.2"
 
 gem "nokogiri", "~> 1.13"
+
