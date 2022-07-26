@@ -1,6 +1,21 @@
 # frozen_string_literal: true
 
-describe 'the episode_url filter' do
+describe Jekyll::Podcast::TagFilters, '#episode_url' do
+  let(:site) do
+    make_site(
+      'url' => 'https://flightthroughentirety.com',
+      'podcast' => {}
+    )
+  end
+  let(:context) { make_context(site) }
+
+  it 'returns a valid percent-encoded url' do
+    liquid = '{{ file | episode_url }}'
+    context['file'] = 'episode 1, title.mp3'
+    rendered = Liquid::Template.parse(liquid).render(context)
+    expect(rendered).to end_with('episode%201%2C%20title.mp3')
+  end
+
   context 'when episodes are served locally' do
     let(:site) do
       make_site(
