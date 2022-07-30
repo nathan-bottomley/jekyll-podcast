@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-require 'mp3Info'
-require_relative 'utils'
-require 'jekyll'
-
 module Jekyll
   # Define duration method in Jekyll::Podcast to convert from seconds to string for feed
   module Podcast

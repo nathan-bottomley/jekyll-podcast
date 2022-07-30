@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'jekyll/podcast/tag_page_generator'
-
 module Jekyll
   module Podcast
     # creates a filter to turn tag names into links

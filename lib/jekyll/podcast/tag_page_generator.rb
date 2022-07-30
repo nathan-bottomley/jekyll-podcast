@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'jekyll/utils'
-
 module Jekyll
   module Podcast
     # Generator to create tag pages for each tag on the site

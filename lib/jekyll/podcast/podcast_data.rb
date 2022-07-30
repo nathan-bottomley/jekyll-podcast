@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'utils'
 module Jekyll
   module Podcast
     # Calculate the total count and duration of all podcast episodes
@@ -11,6 +10,11 @@ module Jekyll
         end
 
         def episodes
+          unless Dir.exist?(episodes_dir)
+            Jekyll.logger.warn 'Podcast:', "No episodes directory found at #{episodes_dir}"
+            return []
+          end
+
           Dir.children(episodes_dir).select { |x| x.end_with?('.mp3') }
         end
 
