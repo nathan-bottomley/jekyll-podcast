@@ -10,11 +10,6 @@ module Jekyll
         end
 
         def episodes
-          unless Dir.exist?(episodes_dir)
-            Jekyll.logger.warn 'Podcast:', "No episodes directory found at #{episodes_dir}"
-            return []
-          end
-
           Dir.children(episodes_dir).select { |x| x.end_with?('.mp3') }
         end
 
@@ -40,11 +35,15 @@ module Jekyll
 
         def podcast_data_log_entry(site)
           @site = site
-          format(
-            '%<count>d episodes; %<size>s;'\
-            '%<days>d d %<hours>d h %<minutes>d min %<seconds>0.3f s',
-            podcast_data
-          )
+          if Dir.exist?(episodes_dir)
+            format(
+              '%<count>d episodes; %<size>s;'\
+              '%<days>d d %<hours>d h %<minutes>d min %<seconds>0.3f s',
+              podcast_data
+            )
+          else
+            "No episodes directory found at #{episodes_dir}"
+          end
         end
       end
     end
