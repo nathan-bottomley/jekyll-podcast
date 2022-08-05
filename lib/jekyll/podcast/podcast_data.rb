@@ -37,7 +37,7 @@ module Jekyll
           @site = site
           if Dir.exist?(episodes_dir)
             format(
-              '%<count>d episodes; %<size>s;'\
+              '%<count>d episodes; %<size>s;' \
               '%<days>d d %<hours>d h %<minutes>d min %<seconds>0.3f s',
               podcast_data
             )

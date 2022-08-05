@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Jekyll::Podcast::TagFilters, '#episode_url' do
+describe 'The episode_url filter', type: :feature do
   let(:site) do
     make_site(
       'url' => 'https://flightthroughentirety.com',
