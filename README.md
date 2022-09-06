@@ -47,6 +47,7 @@ podcast:
   explicit: false
   category: TV &amp; Film
   subcategory: TV Reviews
+  complete: no
 ```
 
 >Explanations of all of the fields here can be found on [Apple's page about podcast feed tags](https://help.apple.com/itc/podcasts_connect/#/itcb54353390). A list of podcast categories and subcategories [can be found here](https://podcasters.apple.com/support/1691-apple-podcasts-categories).
@@ -74,6 +75,7 @@ podcast:
   # optional
   recording_date: 2021-08-01
 ```
+
 ### The episode files
 
 By default, you will store your episodes in `/assets/episodes`, and they will be served directly from your website.
@@ -95,6 +97,7 @@ If you use a CDN or an S3-compatible storage solution to host your podcast episo
 podcast:
   remote_episode_host: https://flight-through-entirety.us-east-1.linodeobjects.com
 ```
+
 > If you store your episodes on some other service, you will have to take care of uploading the episodes to that service yourself. I generally write a build script using `rsync` or `s3cmd sync` to do this.
 
 ### Creating your podcast feed
@@ -142,7 +145,9 @@ To make this possible, `jekyll-podcast` provides a `:podcast_episode` placeholde
   values:
     permalink: /:podcast_episode/
 ```
+
 > You can combine this placeholder with other placeholders if you like. One possibility might be combining the episode number with the slug, like this:
+>
 > ```yaml
 > # _config.yml
 > 
@@ -224,6 +229,7 @@ defaults:
     values:
       layout: contributors-page
 ```
+
 This layout should include the page content, and then iterate through the contributor's posts, which are all accessible to the layout and the page as `{{ page.posts }}`. Here's a simple example.
 
 ```html
@@ -261,7 +267,9 @@ contributors:
 > podcast:
 >  contributors_alias: guests
 > ```
+>
 > If you do this, you should also change the name of the collection and the default type in `_config.yml` as shown above.
+
 ### Tag pages
 
 There are plenty of other implementations of tag pages for Jekyll blogs, and so this one just aims to be as simple as possible.
@@ -310,19 +318,18 @@ If you would like to see some podcasts powered by `jekyll-podcast`, here's a lis
 - [Jodie into Terror](https://jodieintoterror.com), a _Doctor Who_ flashcast in which we give our (intermittently) enthusiastic hot takes on the most recent era of _Doctor Who_ mere days after each episode's first broadcast in the UK.
 - [Untitled Star Trek Project](https://untitledstartrekproject.com), a _Star Trek_ commentary podcast in which two friends watch _Star Trek_ episodes from any series, chosen (nearly) at random by [a page on the podcast website](https://untitledstartrekproject.com/randomiser).
 
-
 <!--
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
--->
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/furius95/jekyll-podcast.
+Bug reports and pull requests are welcome on GitHub at <https://github.com/furius95/jekyll-podcast>.
 
+-->
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
