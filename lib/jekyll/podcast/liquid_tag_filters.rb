@@ -19,6 +19,11 @@ module Jekyll
         File.join(url_prefix, input)
       end
 
+      def tag_link(input)
+        tag_href = Jekyll::Podcast::TagPageGenerator.permalink(input, @context.registers[:site])
+        "<a class='tag' href='#{tag_href}'>#{input}</a>"
+      end
+
       private
 
       def url_prefix
