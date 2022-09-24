@@ -8,7 +8,7 @@ module Jekyll
       class Generator < Jekyll::Generator
         def generate(site)
           unless site.config['tag_pages']
-            Jekyll::Logger.warn 'Tag pages are disabled.'
+            Jekyll.logger.warn 'Tag pages are disabled.'
             return
           end
 
