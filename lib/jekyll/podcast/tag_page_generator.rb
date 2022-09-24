@@ -7,7 +7,10 @@ module Jekyll
       # The generator itself
       class Generator < Jekyll::Generator
         def generate(site)
-          return unless site.config['tag_pages']
+          unless site.config['tag_pages']
+            Jekyll::Logger.warn 'Tag pages are disabled.'
+            return
+          end
 
           site.tags.each do |tag, _|
             site.pages << TagPage.new(site, tag)
