@@ -7,6 +7,8 @@ module Jekyll
       # The generator itself
       class Generator < Jekyll::Generator
         def generate(site)
+          return unless site.config['tag_pages']
+
           site.tags.each do |tag, _|
             site.pages << TagPage.new(site, tag)
           end
