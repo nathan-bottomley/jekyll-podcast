@@ -59,7 +59,9 @@
       <itunes:keywords>{{ post.tags | join: ","}}</itunes:keywords>
       <itunes:episodeType>full</itunes:episodeType>
       <itunes:title>{{ post.title }}</itunes:title>
+      {%- if post.podcast.episode > 0 %}
       <itunes:episode>{{ post.podcast.episode }}</itunes:episode>
+      {% endif -%}
       <enclosure url="{{ post.podcast.file | episode_url }}" length="{{ post.podcast.size }}"
         type="audio/mpeg" />
       <itunes:summary><![CDATA[{{ post.excerpt | strip_html }}]]></itunes:summary>
