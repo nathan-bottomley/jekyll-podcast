@@ -55,16 +55,18 @@
       {%- endcapture -%}
       <description><![CDATA[{{ content }}]]></description>
       <content:encoded><![CDATA[{{ content }}]]></content:encoded>
-      <itunes:subtitle><![CDATA[{{ post.excerpt | strip_html | truncate: 250 }}]]></itunes:subtitle>
+      <itunes:subtitle>
+        <![CDATA[{{ post.excerpt | strip_html | replace "&amp;", "&#x26" | truncate: 250 }}]]>
+      </itunes:subtitle>
       <itunes:keywords>{{ post.tags | join: ","}}</itunes:keywords>
       <itunes:episodeType>full</itunes:episodeType>
       <itunes:title>{{ post.title }}</itunes:title>
-      {%- if post.podcast.episode > 0 %}
+      {%- if post.podcast.episode > 1 %}
       <itunes:episode>{{ post.podcast.episode }}</itunes:episode>
       {% endif -%}
       <enclosure url="{{ post.podcast.file | episode_url }}" length="{{ post.podcast.size }}"
         type="audio/mpeg" />
-      <itunes:summary><![CDATA[{{ post.excerpt | strip_html }}]]></itunes:summary>
+      <itunes:summary><![CDATA[{{ post.excerpt | strip_html | replace "&amp;", "&#x26" }}]]></itunes:summary>
       <itunes:block>no</itunes:block>
       <itunes:duration>{{ post.podcast.duration }}</itunes:duration>
       <itunes:author>{{ site.podcast.author }}</itunes:author>
