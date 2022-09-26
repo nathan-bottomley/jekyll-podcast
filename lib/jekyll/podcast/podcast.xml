@@ -56,7 +56,7 @@
       <description><![CDATA[{{ content }}]]></description>
       <content:encoded><![CDATA[{{ content }}]]></content:encoded>
       <itunes:subtitle>
-        <![CDATA[{{ post.excerpt | strip_html | replace: "&amp;", "&#x26" | truncate: 250 }}]]>
+        <![CDATA[{{ post.excerpt | strip_html | replace: "&amp;", "&" | truncate: 250 }}]]>
       </itunes:subtitle>
       <itunes:keywords>{{ post.tags | join: ","}}</itunes:keywords>
       <itunes:episodeType>full</itunes:episodeType>
