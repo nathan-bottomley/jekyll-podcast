@@ -33,7 +33,6 @@
     {% if site.podcast.complete -%}
     <itunes:complete>Yes</itunes:complete>
     {%- endif %}
-    {% if site.podcast.new-feed-url -%}
     <generator>Jekyll v{{ jekyll.version }}</generator>
     {%- endif %}
     {% for post in site.posts -%}
