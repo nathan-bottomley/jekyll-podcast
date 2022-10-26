@@ -10,6 +10,7 @@
 /spec/dest/
 .jekyll-cache
 .nova
+.DS_Store
 
 # rspec failure tracking
 .rspec_status
