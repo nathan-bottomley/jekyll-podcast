@@ -34,7 +34,6 @@
     <itunes:complete>Yes</itunes:complete>
     {%- endif -%}
     <generator>Jekyll v{{ jekyll.version }}</generator>
-    {%- endif %}
     {% for post in site.posts -%}
     <item>
       <title>{{ post.title }}</title>
