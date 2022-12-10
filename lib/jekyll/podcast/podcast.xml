@@ -29,7 +29,7 @@
     {%- else -%}
     <itunes:category text="{{ site.podcast.category }}" />
     {%- endif %}
-    <itunes:image href="{{ site.url }}/assets/images/podcast-logo.jpeg" />
+    <itunes:image href="{{ site.url }}/assets/images/podcast-logo.jpeg?{{ site.time | date: '%Y%m%d%k%M'}}" />
     {%- if site.podcast.complete -%}
     <itunes:complete>Yes</itunes:complete>
     {%- endif -%}
